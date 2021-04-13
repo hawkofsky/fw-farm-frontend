@@ -8,7 +8,7 @@ import { Image, Heading } from '@pancakeswap-libs/uikit'
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from 'config'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
-import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from 'state/hooks'
+import { useFarms, usePriceBnbBusd, usePriceFsxuBusd, usePriceWhirlBusd } from 'state/hooks'
 import useRefresh from 'hooks/useRefresh'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { QuoteToken } from 'config/constants/types'
@@ -25,7 +25,9 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const { path } = useRouteMatch()
   const TranslateString = useI18n()
   const farmsLP = useFarms()
-  const cakePrice = usePriceCakeBusd()
+  // const cakePrice = usePriceCakeBusd()
+  const fsxuPrice = usePriceFsxuBusd()
+  const whirlPrice = usePriceWhirlBusd()
   const bnbPrice = usePriceBnbBusd()
   const { account, ethereum }: { account: string; ethereum: provider } = useWallet()
   const {tokenMode} = farmsProps;
@@ -57,12 +59,31 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
         // if (!farm.tokenAmount || !farm.lpTotalInQuoteToken || !farm.lpTotalInQuoteToken) {
         //   return farm
         // }
-        const cakeRewardPerBlock = new BigNumber(farm.fsxuPerBlock || 1).times(new BigNumber(farm.poolWeight)) .div(new BigNumber(10).pow(18))
-        const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
+        let cakeRewardPerBlock
+        let cakeRewardPerYear
+        let apy
+        console.log('pid:', farm.pid)
+        if (farm.tokenSymbol === 'FSXU') {
+          cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1).times(new BigNumber(farm.poolWeight)) .div(new BigNumber(10).pow(8))
+          cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
+          apy = fsxuPrice.times(cakeRewardPerYear)
+          console.log('fsxuPrice:', fsxuPrice.toString())
+        } else {
+          cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1).times(new BigNumber(farm.poolWeight)) .div(new BigNumber(10).pow(18))
+          cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
+          apy = whirlPrice.times(cakeRewardPerYear)
+          console.log('whirlPrice:', whirlPrice.toString())
+        }
+        // const cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1).times(new BigNumber(farm.poolWeight)) .div(new BigNumber(10).pow(8))
+        // const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
 
-        let apy = cakePrice.times(cakeRewardPerYear);
+        // let apy = fsxuPrice.times(cakeRewardPerYear)
+        console.log('cakePerYearReward:', cakeRewardPerYear.toString())
+        console.log('apy:', apy.toString())
 
         let totalValue = new BigNumber(farm.lpTotalInQuoteToken || 0);
+        console.log('tokenSymbol:', farm.tokenSymbol)
+        console.log('totalValueBeforeBNB:', totalValue.toString())
 
         if (farm.quoteTokenSymbol === QuoteToken.BNB) {
           totalValue = totalValue.times(bnbPrice);
@@ -70,23 +91,40 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
 
         if(totalValue.comparedTo(0) > 0){
           apy = apy.div(totalValue);
+          console.log('totalValue:', totalValue.toString())
+          console.log('final apy:', apy.toString())
         }
 
         return { ...farm, apy }
       })
-      return farmsToDisplayWithAPY.map((farm) => (
-        <FarmCard
-          key={farm.pid}
-          farm={farm}
-          removed={removed}
-          bnbPrice={bnbPrice}
-          cakePrice={cakePrice}
-          ethereum={ethereum}
-          account={account}
-        />
-      ))
+      return farmsToDisplayWithAPY.map((farm) => {
+        let farmCard : any
+        if (farm.tokenSymbol === 'FSXU') {
+          farmCard = <FarmCard
+            key={farm.pid}
+            farm={farm}
+            removed={removed}
+            bnbPrice={bnbPrice}
+            cakePrice={fsxuPrice}
+            ethereum={ethereum}
+            account={account}
+          />
+          
+        } else {
+          farmCard = <FarmCard
+            key={farm.pid}
+            farm={farm}
+            removed={removed}
+            bnbPrice={bnbPrice}
+            cakePrice={whirlPrice}
+            ethereum={ethereum}
+            account={account}
+          />
+        }
+        return farmCard
+      })
     },
-    [bnbPrice, account, cakePrice, ethereum],
+    [bnbPrice, account, fsxuPrice, whirlPrice, ethereum],
   )
 
   return (

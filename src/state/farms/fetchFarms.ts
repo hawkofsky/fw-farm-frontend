@@ -57,17 +57,26 @@ const fetchFarms = async () => {
         quoteTokenDecimals
       ] = await multicall(erc20, calls)
 
+      console.log('farm:', farmConfig)
+      console.log('CHAIN_ID:', CHAIN_ID)
+      console.log('lpTokenBalanceMC:', lpTokenBalanceMC.toString())
+      console.log('quoteTokenBlanceLP:', quoteTokenBlanceLP.toString())
+      console.log('tokenBalanceLP:', tokenBalanceLP.toString())
+
       let tokenAmount;
       let lpTotalInQuoteToken;
       let tokenPriceVsQuote;
       if(farmConfig.isTokenOnly){
         tokenAmount = new BigNumber(lpTokenBalanceMC).div(new BigNumber(10).pow(tokenDecimals));
+        console.log('tokenAmount:', tokenAmount.toString())
         if(farmConfig.tokenSymbol === QuoteToken.BUSD && farmConfig.quoteTokenSymbol === QuoteToken.BUSD){
           tokenPriceVsQuote = new BigNumber(1);
         }else{
           tokenPriceVsQuote = new BigNumber(quoteTokenBlanceLP).div(new BigNumber(tokenBalanceLP));
         }
+        console.log('tokenPriceVsQuote:', tokenPriceVsQuote.toString())
         lpTotalInQuoteToken = tokenAmount.times(tokenPriceVsQuote);
+        console.log('lpTotalInQuoteToken:', lpTotalInQuoteToken.toString())
       }else{
         // Ratio in % a LP tokens that are in staking, vs the total number in circulation
         const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(new BigNumber(lpTotalSupply))
@@ -89,9 +98,11 @@ const fetchFarms = async () => {
         }else{
           tokenPriceVsQuote = new BigNumber(quoteTokenBlanceLP).div(new BigNumber(tokenBalanceLP));
         }
+        console.log('lpSymbol', farmConfig.lpSymbol);
+        console.log('tokenPriceVsQuote:', tokenPriceVsQuote.toString());
       }
 
-      const [info, totalAllocPoint, fsxuPerBlock] = await multicall(masterchefABI, [
+      const [info, totalAllocPoint, fsxuPerBlock, whirlPerBlock] = await multicall(masterchefABI, [
         {
           address: getMasterChefAddress(),
           name: 'poolInfo',
@@ -104,6 +115,10 @@ const fetchFarms = async () => {
         {
           address: getMasterChefAddress(),
           name: 'fsxuPerBlock',
+        },
+        {
+          address: getMasterChefAddress(),
+          name: 'whirlPerBlock',
         },
       ])
 
@@ -118,8 +133,8 @@ const fetchFarms = async () => {
         tokenPriceVsQuote: tokenPriceVsQuote.toJSON(),
         poolWeight: poolWeight.toNumber(),
         multiplier: `${allocPoint.div(100).toString()}X`,
-        depositFeeBP: info.depositFeeBP,
-        fsxuPerBlock: new BigNumber(fsxuPerBlock).toNumber(),
+        depositFeeBP: info.depositFeeBP ? info.depositFeeBP : 0,
+        cakePerBlock: farmConfig.tokenSymbol === 'FSXU' ? new BigNumber(fsxuPerBlock).toNumber() : new BigNumber(whirlPerBlock).toNumber(),
       }
     }),
   )
