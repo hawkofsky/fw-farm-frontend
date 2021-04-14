@@ -45,7 +45,6 @@ export const useFarmUser = (pid) => {
   }
 }
 
-
 // Pools
 
 export const usePools = (account): Pool[] => {
@@ -85,44 +84,44 @@ export const usePriceCakeBusd = (): BigNumber => {
   return usePriceFsxuBnb().times(usePriceBnbBusd())
 }
 
-export const usePriceFsxuBusd = () : BigNumber => {
+export const usePriceFsxuBusd = (): BigNumber => {
   return usePriceFsxuBnb().times(usePriceBnbBusd())
 }
 
-export const usePriceWhirlBusd = () : BigNumber => {
+export const usePriceWhirlBusd = (): BigNumber => {
   return usePriceWhirlBnb().times(usePriceBnbBusd())
 }
 
-export const usePriceFsxuBnb = () : BigNumber => {
+export const usePriceFsxuBnb = (): BigNumber => {
   const pid = 2
   const farm = useFarmFromPid(pid)
   return farm.tokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : ZERO
 }
 
-export const usePriceWhirlBnb = () : BigNumber => {
+export const usePriceWhirlBnb = (): BigNumber => {
   const pid = 3
   const farm = useFarmFromPid(pid)
   return farm.tokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : ZERO
 }
 
 export const useTotalValue = (): BigNumber => {
-  const farms = useFarms();
-  const bnbPrice = usePriceBnbBusd();
-  const cakePrice = usePriceCakeBusd();
-  let value = new BigNumber(0);
+  const farms = useFarms()
+  const bnbPrice = usePriceBnbBusd()
+  const cakePrice = usePriceCakeBusd()
+  let value = new BigNumber(0)
   for (let i = 0; i < farms.length; i++) {
     const farm = farms[i]
     if (farm.lpTotalInQuoteToken) {
-      let val;
+      let val
       if (farm.quoteTokenSymbol === QuoteToken.BNB) {
-        val = (bnbPrice.times(farm.lpTotalInQuoteToken));
-      }else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
-        val = (cakePrice.times(farm.lpTotalInQuoteToken));
-      }else{
-        val = (farm.lpTotalInQuoteToken);
+        val = bnbPrice.times(farm.lpTotalInQuoteToken)
+      } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
+        val = cakePrice.times(farm.lpTotalInQuoteToken)
+      } else {
+        val = farm.lpTotalInQuoteToken
       }
-      value = value.plus(val);
+      value = value.plus(val)
     }
   }
-  return value;
+  return value
 }

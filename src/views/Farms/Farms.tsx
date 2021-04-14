@@ -17,7 +17,7 @@ import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import FarmTabButtons from './components/FarmTabButtons'
 import Divider from './components/Divider'
 
-export interface FarmsProps{
+export interface FarmsProps {
   tokenMode?: boolean
 }
 
@@ -30,7 +30,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const whirlPrice = usePriceWhirlBusd()
   const bnbPrice = usePriceBnbBusd()
   const { account, ethereum }: { account: string; ethereum: provider } = useWallet()
-  const {tokenMode} = farmsProps;
+  const { tokenMode } = farmsProps
 
   const dispatch = useDispatch()
   const { fastRefresh } = useRefresh()
@@ -55,71 +55,70 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const farmsList = useCallback(
     (farmsToDisplay, removed: boolean) => {
       // const cakePriceVsBNB = new BigNumber(farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote || 0)
-      const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map((farm) => {
+      const farmsToDisplay1 = farmsToDisplay.filter((farm) => farm.pid !== 4)
+      const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay1.map((farm) => {
         // if (!farm.tokenAmount || !farm.lpTotalInQuoteToken || !farm.lpTotalInQuoteToken) {
         //   return farm
         // }
         let cakeRewardPerBlock
         let cakeRewardPerYear
         let apy
-        console.log('pid:', farm.pid)
         if (farm.tokenSymbol === 'FSXU') {
-          cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1).times(new BigNumber(farm.poolWeight)) .div(new BigNumber(10).pow(8))
+          cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1)
+            .times(new BigNumber(farm.poolWeight))
+            .div(new BigNumber(10).pow(8))
           cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
           apy = fsxuPrice.times(cakeRewardPerYear)
-          console.log('fsxuPrice:', fsxuPrice.toString())
         } else {
-          cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1).times(new BigNumber(farm.poolWeight)) .div(new BigNumber(10).pow(18))
+          cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1)
+            .times(new BigNumber(farm.poolWeight))
+            .div(new BigNumber(10).pow(18))
           cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
           apy = whirlPrice.times(cakeRewardPerYear)
-          console.log('whirlPrice:', whirlPrice.toString())
         }
         // const cakeRewardPerBlock = new BigNumber(farm.cakePerBlock || 1).times(new BigNumber(farm.poolWeight)) .div(new BigNumber(10).pow(8))
         // const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
 
         // let apy = fsxuPrice.times(cakeRewardPerYear)
-        console.log('cakePerYearReward:', cakeRewardPerYear.toString())
-        console.log('apy:', apy.toString())
 
-        let totalValue = new BigNumber(farm.lpTotalInQuoteToken || 0);
-        console.log('tokenSymbol:', farm.tokenSymbol)
-        console.log('totalValueBeforeBNB:', totalValue.toString())
+        let totalValue = new BigNumber(farm.lpTotalInQuoteToken || 0)
 
         if (farm.quoteTokenSymbol === QuoteToken.BNB) {
-          totalValue = totalValue.times(bnbPrice);
+          totalValue = totalValue.times(bnbPrice)
         }
 
-        if(totalValue.comparedTo(0) > 0){
-          apy = apy.div(totalValue);
-          console.log('totalValue:', totalValue.toString())
-          console.log('final apy:', apy.toString())
+        if (totalValue.comparedTo(0) > 0) {
+          apy = apy.div(totalValue)
         }
 
         return { ...farm, apy }
       })
       return farmsToDisplayWithAPY.map((farm) => {
-        let farmCard : any
+        let farmCard: any
         if (farm.tokenSymbol === 'FSXU') {
-          farmCard = <FarmCard
-            key={farm.pid}
-            farm={farm}
-            removed={removed}
-            bnbPrice={bnbPrice}
-            cakePrice={fsxuPrice}
-            ethereum={ethereum}
-            account={account}
-          />
-          
+          farmCard = (
+            <FarmCard
+              key={farm.pid}
+              farm={farm}
+              removed={removed}
+              bnbPrice={bnbPrice}
+              cakePrice={fsxuPrice}
+              ethereum={ethereum}
+              account={account}
+            />
+          )
         } else {
-          farmCard = <FarmCard
-            key={farm.pid}
-            farm={farm}
-            removed={removed}
-            bnbPrice={bnbPrice}
-            cakePrice={whirlPrice}
-            ethereum={ethereum}
-            account={account}
-          />
+          farmCard = (
+            <FarmCard
+              key={farm.pid}
+              farm={farm}
+              removed={removed}
+              bnbPrice={bnbPrice}
+              cakePrice={whirlPrice}
+              ethereum={ethereum}
+              account={account}
+            />
+          )
         }
         return farmCard
       })
@@ -130,17 +129,14 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   return (
     <Page>
       <Heading as="h1" size="lg" color="primary" mb="50px" style={{ textAlign: 'center' }}>
-        {
-          tokenMode ?
-            TranslateString(10002, 'Stake tokens to earn FSXU')
-            :
-          TranslateString(320, 'Stake LP tokens to earn FSXU')
-        }
+        {tokenMode
+          ? TranslateString(10002, 'Stake tokens to earn FSXU')
+          : TranslateString(320, 'Stake LP tokens to earn FSXU')}
       </Heading>
       {/* <Heading as="h2" color="secondary" mb="50px" style={{ textAlign: 'center' }}>
         {TranslateString(10000, 'Deposit Fee will be used to buyback EGG')}
       </Heading> */}
-      <FarmTabButtons stakedOnly={stakedOnly} setStakedOnly={setStakedOnly}/>
+      <FarmTabButtons stakedOnly={stakedOnly} setStakedOnly={setStakedOnly} />
       <div>
         <Divider />
         <FlexLayout>
@@ -152,7 +148,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
           </Route>
         </FlexLayout>
       </div>
-      <Image src="/images/egg/8.png" alt="illustration" width={1352} height={587} responsive />
+      {/* <Image src="/images/egg/8.png" alt="illustration" width={1352} height={587} responsive /> */}
     </Page>
   )
 }

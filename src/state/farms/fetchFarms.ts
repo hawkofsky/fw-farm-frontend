@@ -54,7 +54,7 @@ const fetchFarms = async () => {
         lpTokenBalanceMC,
         lpTotalSupply,
         tokenDecimals,
-        quoteTokenDecimals
+        quoteTokenDecimals,
       ] = await multicall(erc20, calls)
 
       console.log('farm:', farmConfig)
@@ -63,29 +63,33 @@ const fetchFarms = async () => {
       console.log('quoteTokenBlanceLP:', quoteTokenBlanceLP.toString())
       console.log('tokenBalanceLP:', tokenBalanceLP.toString())
 
-      let tokenAmount;
-      let lpTotalInQuoteToken;
-      let tokenPriceVsQuote;
-      if(farmConfig.isTokenOnly){
-        tokenAmount = new BigNumber(lpTokenBalanceMC).div(new BigNumber(10).pow(tokenDecimals));
+      let tokenAmount
+      let lpTotalInQuoteToken
+      let tokenPriceVsQuote
+      if (farmConfig.isTokenOnly) {
+        tokenAmount = new BigNumber(lpTokenBalanceMC).div(new BigNumber(10).pow(tokenDecimals))
         console.log('tokenAmount:', tokenAmount.toString())
-        if(farmConfig.tokenSymbol === QuoteToken.BUSD && farmConfig.quoteTokenSymbol === QuoteToken.BUSD){
-          tokenPriceVsQuote = new BigNumber(1);
-        }else{
-          tokenPriceVsQuote = new BigNumber(quoteTokenBlanceLP).div(new BigNumber(tokenBalanceLP));
+        if (farmConfig.tokenSymbol === QuoteToken.BUSD && farmConfig.quoteTokenSymbol === QuoteToken.BUSD) {
+          tokenPriceVsQuote = new BigNumber(1)
+        } else {
+          tokenPriceVsQuote = new BigNumber(quoteTokenBlanceLP).div(new BigNumber(10).pow(quoteTokenDecimals)).div(new BigNumber(tokenBalanceLP).div(new BigNumber(10).pow(tokenDecimals)))
         }
         console.log('tokenPriceVsQuote:', tokenPriceVsQuote.toString())
-        lpTotalInQuoteToken = tokenAmount.times(tokenPriceVsQuote);
+        lpTotalInQuoteToken = tokenAmount.times(tokenPriceVsQuote)
         console.log('lpTotalInQuoteToken:', lpTotalInQuoteToken.toString())
-      }else{
+      } else {
         // Ratio in % a LP tokens that are in staking, vs the total number in circulation
         const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(new BigNumber(lpTotalSupply))
+        console.log('lpTokenRatio:', lpTokenRatio.toString())
+        console.log('quoteTokenBlanceLP:', quoteTokenBlanceLP.toString())
 
         // Total value in staking in quote token value
         lpTotalInQuoteToken = new BigNumber(quoteTokenBlanceLP)
           .div(new BigNumber(10).pow(18))
           .times(new BigNumber(2))
-          .times(lpTokenRatio)
+          // .times(lpTokenRatio)
+          .times(lpTokenRatio).div(100)
+        console.log('lpTotalInQuoteToken:', lpTotalInQuoteToken.toString())
 
         // Amount of token in the LP that are considered staking (i.e amount of token * lp ratio)
         tokenAmount = new BigNumber(tokenBalanceLP).div(new BigNumber(10).pow(tokenDecimals)).times(lpTokenRatio)
@@ -93,13 +97,13 @@ const fetchFarms = async () => {
           .div(new BigNumber(10).pow(quoteTokenDecimals))
           .times(lpTokenRatio)
 
-        if(tokenAmount.comparedTo(0) > 0){
-          tokenPriceVsQuote = quoteTokenAmount.div(tokenAmount);
-        }else{
-          tokenPriceVsQuote = new BigNumber(quoteTokenBlanceLP).div(new BigNumber(tokenBalanceLP));
+        if (tokenAmount.comparedTo(0) > 0) {
+          tokenPriceVsQuote = quoteTokenAmount.div(tokenAmount)
+        } else {
+          tokenPriceVsQuote = new BigNumber(quoteTokenBlanceLP).div(new BigNumber(tokenBalanceLP))
         }
-        console.log('lpSymbol', farmConfig.lpSymbol);
-        console.log('tokenPriceVsQuote:', tokenPriceVsQuote.toString());
+        console.log('lpSymbol', farmConfig.lpSymbol)
+        console.log('tokenPriceVsQuote:', tokenPriceVsQuote.toString())
       }
 
       const [info, totalAllocPoint, fsxuPerBlock, whirlPerBlock] = await multicall(masterchefABI, [
@@ -134,7 +138,10 @@ const fetchFarms = async () => {
         poolWeight: poolWeight.toNumber(),
         multiplier: `${allocPoint.div(100).toString()}X`,
         depositFeeBP: info.depositFeeBP ? info.depositFeeBP : 0,
-        cakePerBlock: farmConfig.tokenSymbol === 'FSXU' ? new BigNumber(fsxuPerBlock).toNumber() : new BigNumber(whirlPerBlock).toNumber(),
+        cakePerBlock:
+          farmConfig.tokenSymbol === 'FSXU'
+            ? new BigNumber(fsxuPerBlock).toNumber()
+            : new BigNumber(whirlPerBlock).toNumber(),
       }
     }),
   )
