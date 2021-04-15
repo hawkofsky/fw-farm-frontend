@@ -32,7 +32,7 @@ const StyledInput = styled.input`
   width: 100%;
   background: none;
   border: 0;
-  color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.success};
   font-size: 18px;
   flex: 1;
   height: 56px;

@@ -19,8 +19,11 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
   const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max)
-  }, [max])
+    let fullDisplayBalance
+    if ( tokenName === 'FSXU') fullDisplayBalance = getFullDisplayBalance(max, 8)
+    else fullDisplayBalance = getFullDisplayBalance(max)
+    return fullDisplayBalance
+  }, [max, tokenName])
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
