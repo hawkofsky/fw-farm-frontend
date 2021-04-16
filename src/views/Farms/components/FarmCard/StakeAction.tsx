@@ -29,7 +29,12 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ stakedBalance, tokenBalan
   const { onStake } = useStake(pid)
   const { onUnstake } = useUnstake(pid)
 
-  const rawStakedBalance = getBalanceNumber(stakedBalance)
+  let rawStakedBalance
+  if ( pid === 0 || pid === 2 ) {
+    rawStakedBalance = getBalanceNumber(stakedBalance, 8)
+  } else {
+    rawStakedBalance = getBalanceNumber(stakedBalance)
+  }
   const displayBalance = rawStakedBalance.toLocaleString()
 
   const [onPresentDeposit] = useModal(
