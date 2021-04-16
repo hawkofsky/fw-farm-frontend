@@ -30,7 +30,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ stakedBalance, tokenBalan
   const { onUnstake } = useUnstake(pid)
 
   let rawStakedBalance
-  if ( pid === 0 || pid === 2 ) {
+  if ( pid === 0 ) {
     rawStakedBalance = getBalanceNumber(stakedBalance, 8)
   } else {
     rawStakedBalance = getBalanceNumber(stakedBalance)
