@@ -35,6 +35,10 @@ const StyledLinkExternal = styled(LinkExternal)`
   }
 `
 
+const StyledText = styled.span`
+  color: ${({ theme }) => theme.colors.text};
+`
+
 const DetailsSection: React.FC<ExpandableSectionProps> = ({
   isTokenOnly,
   bscScanAddress,
@@ -55,8 +59,8 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
         <StyledLinkExternal
           href={
             isTokenOnly
-              ? `https://exchange.goosedefi.com/#/swap/${tokenAddresses[process.env.REACT_APP_CHAIN_ID]}`
-              : `https://exchange.goosedefi.com/#/add/${liquidityUrlPathParts}`
+              ? `https://exchange.pancakeswap.finance/#/swap?outputCurrency=${tokenAddresses[process.env.REACT_APP_CHAIN_ID]}`
+              : `https://exchange.pancakeswap.finance/#/add/${liquidityUrlPathParts}`
           }
         >
           {lpLabel}
@@ -70,7 +74,9 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
       )} */}
       <Flex justifyContent="flex-start">
         <Link external href={bscScanAddress} bold={false}>
-          {TranslateString(356, 'View on BscScan')}
+          <StyledText>
+            {TranslateString(356, 'View on BscScan')}
+          </StyledText>
         </Link>
       </Flex>
     </Wrapper>
