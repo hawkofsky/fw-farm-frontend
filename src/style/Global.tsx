@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 // eslint-disable-next-line import/no-unresolved
-import { PancakeTheme } from '@pancakeswap-libs/uikit'
+import { PancakeTheme } from '@hawkofsky/whirlflashx-uikit'
 
 declare module 'styled-components' {
   /* eslint-disable @typescript-eslint/no-empty-interface */
@@ -21,12 +21,6 @@ const GlobalStyle = createGlobalStyle`
       height: auto;
       max-width: 100%;
     }
-  }
-  a[href="https://twitter.com/FinanceGoose"] {
-    display: none;
-  }
-  a[href*="https://t.me"] {
-    display: none;
   }
   .desktop-icon {
     margin-top: -34px;
