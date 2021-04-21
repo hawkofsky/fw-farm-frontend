@@ -9,7 +9,7 @@ export const approve = async (lpContract, masterChefContract, account) => {
 
 export const stake = async (masterChefContract, pid, amount, account) => {
   let result
-  if (pid === 0 || pid === 2) {
+  if (pid === 0) {
     result = masterChefContract.methods
       .deposit(pid, new BigNumber(amount).times(new BigNumber(10).pow(8)).toString())
       .send({ from: account })
