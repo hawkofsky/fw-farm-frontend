@@ -18,8 +18,14 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
   const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max)
-  }, [max])
+    let balance
+    if (tokenName === 'FSXU') {
+      balance = getFullDisplayBalance(max, 8)
+    } else {
+      balance = getFullDisplayBalance(max)
+    }
+    return balance
+  }, [max, tokenName])
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
