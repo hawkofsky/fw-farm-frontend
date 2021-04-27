@@ -84,38 +84,38 @@ const farms: FarmConfig[] = [
     quoteTokenSymbol: QuoteToken.BUSD,
     quoteTokenAdresses: contracts.busd,
   },
-  // {
-  //   pid: 3,
-  //   risk: 1,
-  //   lpSymbol: 'USDT-BUSD LP',
-  //   lpAddresses: {
-  //     97: '',
-  //     56: '0xc15fa3e22c912a276550f3e5fe3b0deb87b55acd',
-  //   },
-  //   tokenSymbol: 'USDT',
-  //   tokenAddresses: {
-  //     97: '',
-  //     56: '0x55d398326f99059ff775485246999027b3197955',
-  //   },
-  //   quoteTokenSymbol: QuoteToken.BUSD,
-  //   quoteTokenAdresses: contracts.busd,
-  // },
-  // {
-  //   pid: 4,
-  //   risk: 2,
-  //   lpSymbol: 'BTCB-BNB LP',
-  //   lpAddresses: {
-  //     97: '',
-  //     56: '0x7561eee90e24f3b348e1087a005f78b4c8453524',
-  //   },
-  //   tokenSymbol: 'BTCB',
-  //   tokenAddresses: {
-  //     97: '',
-  //     56: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c',
-  //   },
-  //   quoteTokenSymbol: QuoteToken.BNB,
-  //   quoteTokenAdresses: contracts.wbnb,
-  // },
+  {
+    pid: 5,
+    risk: 1,
+    lpSymbol: 'New FSXU-BNB LP',
+    lpAddresses: {
+      97: '',
+      56: '0x53aaabf8c94ff46a602663ccd9c4d3e14091330a',
+    },
+    tokenSymbol: 'FSXU',
+    tokenAddresses: {
+      97: '',
+      56: '0xa94b7a842aADB617a0B08fA744e033C6De2f7595',
+    },
+    quoteTokenSymbol: QuoteToken.BNB,
+    quoteTokenAdresses: contracts.wbnb,
+  },
+  {
+    pid: 6,
+    risk: 2,
+    lpSymbol: 'New WHIRL-BNB LP',
+    lpAddresses: {
+      97: '',
+      56: '0xe4d66bf8664ad87d1b1617d9e1cb1b981f238936',
+    },
+    tokenSymbol: 'WHIRL',
+    tokenAddresses: {
+      97: '',
+      56: '0x7f479d78380ad00341fdd7322fe8aef766e29e5a',
+    },
+    quoteTokenSymbol: QuoteToken.BNB,
+    quoteTokenAdresses: contracts.wbnb,
+  },
   // {
   //   pid: 5,
   //   risk: 2,
