@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const StyledLinkExternal = styled(LinkExternal)`
   text-decoration: none;
   font-weight: normal;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.success};
   display: flex;
   align-items: center;
 
@@ -36,7 +36,7 @@ const StyledLinkExternal = styled(LinkExternal)`
 `
 
 const StyledText = styled.span`
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.success};
 `
 
 const DetailsSection: React.FC<ExpandableSectionProps> = ({
@@ -55,7 +55,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
   return (
     <Wrapper>
       <Flex justifyContent="space-between">
-        <Text>{TranslateString(316, 'Stake')}:</Text>
+        <Text color="white">{TranslateString(316, 'Stake')}:</Text>
         <StyledLinkExternal
           href={
             isTokenOnly
@@ -68,8 +68,8 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
       </Flex>
       {!removed && (
         <Flex justifyContent="space-between">
-          <Text>{TranslateString(23, 'Total Liquidity')}:</Text>
-          <Text>{totalValueFormated}</Text>
+          <Text color="white">{TranslateString(23, 'Total Liquidity')}:</Text>
+          <Text color="white">{totalValueFormated}</Text>
         </Flex>
       )}
       <Flex justifyContent="flex-start">

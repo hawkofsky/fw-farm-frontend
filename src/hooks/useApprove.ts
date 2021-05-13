@@ -19,6 +19,7 @@ export const useApprove = (lpContract: Contract) => {
       dispatch(fetchFarmUserDataAsync(account))
       return tx
     } catch (e) {
+      alert(e)
       return false
     }
   }, [account, dispatch, lpContract, masterChefContract])

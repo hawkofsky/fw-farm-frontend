@@ -13,9 +13,8 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     background-color: ${({ theme }) => theme.colors.background};
-    background-image: linear-gradient(
-      -20deg
-      , #6c55c1 0%, #4a2d97 20%, transparent 50%, transparent 100%) !important;
+    background-image: ${({ theme }) => theme.colors.backgroundImage};
+    // background-image: url('images/light_background.jpg');
 
     img {
       height: auto;
