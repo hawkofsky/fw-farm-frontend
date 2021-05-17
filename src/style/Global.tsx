@@ -26,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
     overflow: visible;
   }
   .desktop-icon image {
-    height: 300%;
+    height: auto;
     width: auto;
   }
 `
