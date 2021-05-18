@@ -1601,10 +1601,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hawkofsky/whirlflashx-uikit@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@hawkofsky/whirlflashx-uikit/-/whirlflashx-uikit-1.1.2.tgz#b632861ee97212ac7df13ab5362d5dcdf014bcee"
-  integrity sha512-GhmKpDcjlyWXEZaIvA734QS80fdGP69A9kwUz2o/smfUu4HXrAIsVh6dm4e8qM7TNX2PNiN9YzGiGcosTaEhvw==
+"@hawkofsky/whirlflashx-uikit@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@hawkofsky/whirlflashx-uikit/-/whirlflashx-uikit-1.2.0.tgz#694367db36ce7d3102d4abc8a29861044f73e407"
+  integrity sha512-rwogHBVrI2AFTiacZ3kUWOPCWD/u02QW2PrfteZdQH5gZ746iWKq+2dCQg04C2+tosuvztZHcbrVgx1XiFKUNg==
   dependencies:
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"
