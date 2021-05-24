@@ -31,7 +31,7 @@ const Farm: React.FC = () => {
   const priceToBnb = (tokenName: string, tokenPrice: BigNumber, quoteToken: QuoteToken): BigNumber => {
     const tokenPriceBN = new BigNumber(tokenPrice)
     if (tokenName === 'BNB') {
-      return new BigNumber(1)
+      return new BigNumber(1).div(new BigNumber(10).pow(18))
     }
     if (tokenPrice && quoteToken === QuoteToken.BUSD) {
       return tokenPriceBN.div(bnbPriceUSD)
@@ -70,7 +70,7 @@ const Farm: React.FC = () => {
       <Hero>
         <div>
           <Heading as="h1" size="xxl" mb="16px">
-            {TranslateString(282, 'SYRUP Pool')}
+            {TranslateString(282, 'BNB Pool')}
           </Heading>
           <ul>
             <li>{TranslateString(580, 'Stake CAKE to earn new tokens.')}</li>
@@ -78,7 +78,7 @@ const Farm: React.FC = () => {
             <li>{TranslateString(406, 'Rewards are calculated per block.')}</li>
           </ul>
         </div>
-        <img src="/images/syrup.png" alt="SYRUP POOL icon" width={410} height={191} />
+        {/* <img src="/images/syrup.png" alt="SYRUP POOL icon" width={410} height={191} /> */}
       </Hero>
       <PoolTabButtons />
       <Divider />
@@ -88,7 +88,7 @@ const Farm: React.FC = () => {
             {orderBy(openPools, ['sortOrder']).map((pool) => (
               <PoolCard key={pool.sousId} pool={pool} />
             ))}
-            <Coming />
+            {/* <Coming /> */}
           </>
         </Route>
         <Route path={`${path}/history`}>

@@ -91,7 +91,7 @@ const CardFooter: React.FC<Props> = ({
     <StyledFooter isFinished={isFinished}>
       <Row>
         <FlexFull>
-          <Tag />
+          {/* <Tag /> */}
         </FlexFull>
         <StyledDetailsButton onClick={handleClick}>
           {isOpen ? 'Hide' : 'Details'} <Icon />
@@ -101,9 +101,9 @@ const CardFooter: React.FC<Props> = ({
         <Details>
           <Row style={{ marginBottom: '4px' }}>
             <FlexFull>
-              <Label>
+              <Label style={{color: '#ffffff'}}>
                 <span role="img" aria-label="syrup">
-                  🥞{' '}
+                  {' '}
                 </span>
                 {TranslateString(408, 'Total')}
               </Label>
@@ -118,14 +118,14 @@ const CardFooter: React.FC<Props> = ({
               <Balance fontSize="14px" isDisabled={isFinished} value={blocksUntilStart} decimals={0} />
             </Row>
           )}
-          {blocksUntilStart === 0 && blocksRemaining > 0 && (
+          {/* {blocksUntilStart === 0 && blocksRemaining > 0 && (
             <Row>
               <FlexFull>
                 <Label>{TranslateString(410, 'End')}:</Label>
               </FlexFull>
               <Balance fontSize="14px" isDisabled={isFinished} value={blocksRemaining} decimals={0} />
             </Row>
-          )}
+          )} */}
           <TokenLink href={projectLink} target="_blank">
             {TranslateString(412, 'View project site')}
           </TokenLink>
