@@ -30,7 +30,7 @@ const pools: PoolConfig[] = [
     poolCategory: PoolCategory.CORE,
     projectLink: 'https://whirlfinance.io',
     harvest: true,
-    tokenPerBlock: '10000000000',
+    tokenPerBlock: '200000000000',
     sortOrder: 999,
     isFinished: false,
     tokenDecimals: 18,
