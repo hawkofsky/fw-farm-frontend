@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useWallet } from '@binance-chain/bsc-use-wallet'
+import { useWallet } from 'use-wallet'
 import { Button, Checkbox, Modal, Text } from '@hawkofsky/whirlflashx-uikit'
 import useI18n from 'hooks/useI18n'
 import { Nft } from 'config/constants/types'
