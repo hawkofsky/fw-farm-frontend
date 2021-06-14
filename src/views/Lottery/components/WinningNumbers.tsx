@@ -33,6 +33,7 @@ const WinningNumbers: React.FC = () => {
                 // eslint-disable-next-line react/no-array-index-key
                 <TicketNumberBox key={index}>
                   <CenteredText>{number}</CenteredText>
+                  <Image src="/logo.png" alt="Number 1" width={200} height={200} responsive />
                 </TicketNumberBox>
               ))}
             </Row>
@@ -184,8 +185,8 @@ const CenteredTextWithPadding = styled.div`
 
 const TicketNumberBox = styled.div`
   padding: 10px;
-  border: 2px dotted #24c7d6;
-  border-radius: 12px;
+  border: 2px solid #24c7d6;
+  border-radius: 36px;
   background: #ffffff;
   color: #24c7d6;
   font-size: 20px;
