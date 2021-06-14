@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { useWallet } from 'use-wallet'
-import { Heading, Card, CardBody, CardFooter, Text, PancakeRoundIcon, Flex, Skeleton } from '@hawkofsky/whirlflashx-uikit'
+import { Heading, Card, CardBody, CardFooter, Text, Image, PancakeRoundIcon, Flex, Skeleton } from '@hawkofsky/whirlflashx-uikit'
 import { getBalanceNumber } from 'utils/formatBalance'
 import useI18n from 'hooks/useI18n'
 import { useTotalRewards } from 'hooks/useTickets'
@@ -29,10 +29,8 @@ const Left = styled.div`
 
 const IconWrapper = styled.div`
   margin-right: 16px;
-  svg {
-    width: 48px;
-    height: 48px;
-  }
+  width: 48px;
+  height: 48px;
 `
 
 const PrizeCountWrapper = styled.div`
@@ -72,7 +70,7 @@ const TotalPrizesCard = () => {
         <CardHeading>
           <Left>
             <IconWrapper>
-              <PancakeRoundIcon />
+              <Image src="/logo.png" alt="Number 1" width={48} height={48} />
             </IconWrapper>
             <PrizeCountWrapper>
               <Text fontSize="14px" color="textSubtle">
