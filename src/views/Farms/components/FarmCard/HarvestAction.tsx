@@ -9,7 +9,8 @@ import useStake from '../../../../hooks/useStake'
 
 interface FarmCardActionsProps {
   earnings?: BigNumber
-  pid?: number
+  pid?: number,
+  masterchef?: string
 }
 
 const BalanceAndCompound = styled.div`
@@ -19,11 +20,11 @@ const BalanceAndCompound = styled.div`
   flex-direction: column;
 `
 
-const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
+const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid, masterchef }) => {
   const TranslateString = useI18n()
   const [pendingTx, setPendingTx] = useState(false)
-  const { onReward } = useHarvest(pid)
-  const { onStake } = useStake(pid)
+  const { onReward } = useHarvest(pid, masterchef)
+  const { onStake } = useStake(pid, masterchef)
 
   let rawEarningsBalance
   if ( pid === 0 || pid === 2 || pid === 5 ) {

@@ -1,10 +1,11 @@
 import BigNumber from 'bignumber.js'
 import erc20 from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
+import dalmatianMasterchefABI from 'config/abi/dalmatianMasterchef.json'
 import multicall from 'utils/multicall'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 import farmsConfig from 'config/constants/farms'
-import { QuoteToken } from '../../config/constants/types'
+import { QuoteToken, FarmCategory } from '../../config/constants/types'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 
@@ -29,7 +30,7 @@ const fetchFarms = async () => {
         {
           address: farmConfig.isTokenOnly ? farmConfig.tokenAddresses[CHAIN_ID] : lpAdress,
           name: 'balanceOf',
-          params: [getMasterChefAddress()],
+          params: [farmConfig.masterChef],
         },
         // Total supply of LP tokens
         {
@@ -92,25 +93,60 @@ const fetchFarms = async () => {
         }
       }
 
-      const [info, totalAllocPoint, fsxuPerBlock, whirlPerBlock] = await multicall(masterchefABI, [
-        {
-          address: getMasterChefAddress(),
-          name: 'poolInfo',
-          params: [farmConfig.pid],
-        },
-        {
-          address: getMasterChefAddress(),
-          name: 'totalAllocPoint',
-        },
-        {
-          address: getMasterChefAddress(),
-          name: 'fsxuPerBlock',
-        },
-        {
-          address: getMasterChefAddress(),
-          name: 'whirlPerBlock',
-        },
-      ])
+      let info
+      let totalAllocPoint
+      let cakePerBlock
+
+      if (farmConfig.farmCategory === FarmCategory.FSXU) {
+        [info, totalAllocPoint, cakePerBlock] = await multicall(masterchefABI, [
+          {
+            address: farmConfig.masterChef,
+            name: 'poolInfo',
+            params: [farmConfig.pid],
+          },
+          {
+            address: farmConfig.masterChef,
+            name: 'totalAllocPoint',
+          },
+          {
+            address: farmConfig.masterChef,
+            name: 'fsxuPerBlock',
+          },
+        ])
+      } else if (farmConfig.farmCategory === FarmCategory.WHIRL) {
+        [info, totalAllocPoint, cakePerBlock] = await multicall(masterchefABI, [
+          {
+            address: farmConfig.masterChef,
+            name: 'poolInfo',
+            params: [farmConfig.pid],
+          },
+          {
+            address: farmConfig.masterChef,
+            name: 'totalAllocPoint',
+          },
+          {
+            address: farmConfig.masterChef,
+            name: 'whirlPerBlock',
+          },
+        ])
+      } else if (farmConfig.farmCategory === FarmCategory.DALMATIAN) {
+        [info, totalAllocPoint, cakePerBlock] = await multicall(dalmatianMasterchefABI, [
+          {
+            address: farmConfig.masterChef,
+            name: 'poolInfo',
+            params: [farmConfig.pid],
+          },
+          {
+            address: farmConfig.masterChef,
+            name: 'totalAllocPoint',
+          },
+          {
+            address: farmConfig.masterChef,
+            name: 'dalPerBlock',
+          },
+        ])
+      }
+      
 
       const allocPoint = new BigNumber(info.allocPoint._hex)
       const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint))
@@ -124,10 +160,7 @@ const fetchFarms = async () => {
         poolWeight: poolWeight.toNumber(),
         multiplier: `${allocPoint.div(100).toString()}X`,
         depositFeeBP: info.depositFeeBP ? info.depositFeeBP : 0,
-        cakePerBlock:
-          farmConfig.tokenSymbol === 'FSXU'
-            ? new BigNumber(fsxuPerBlock).toNumber()
-            : new BigNumber(whirlPerBlock).toNumber(),
+        cakePerBlock: new BigNumber(cakePerBlock).toNumber(),
       }
     }),
   )

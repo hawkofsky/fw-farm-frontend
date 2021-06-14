@@ -64,9 +64,9 @@ export const useLotteryTicket = () => {
   return useContract(abi, getLotteryTicketAddress())
 }
 
-export const useMasterchef = () => {
+export const useMasterchef = (masterChefAddr: string) => {
   const abi = (masterChef as unknown) as AbiItem
-  return useContract(abi, getMasterChefAddress())
+  return useContract(abi, masterChefAddr)
 }
 
 export const useSousChef = (id) => {

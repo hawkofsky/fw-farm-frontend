@@ -1,8 +1,10 @@
 import contracts from './contracts'
-import { FarmConfig, QuoteToken } from './types'
+import { FarmConfig, QuoteToken, FarmCategory } from './types'
 
 const farms: FarmConfig[] = [
   {
+    id: 0,
+    masterChef: '0x264dFD3874B8DF4947BEC00a8A5fcEbBE0D258b9',
     pid: 0,
     risk: 5,
     isTokenOnly: true,
@@ -18,8 +20,11 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    farmCategory: FarmCategory.FSXU,
   },
   {
+    id: 1,
+    masterChef: '0x264dFD3874B8DF4947BEC00a8A5fcEbBE0D258b9',
     pid: 1,
     risk: 1,
     isTokenOnly: true,
@@ -35,11 +40,14 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    farmCategory: FarmCategory.WHIRL,
   },
   {
+    id: 2,
+    masterChef: '0x264dFD3874B8DF4947BEC00a8A5fcEbBE0D258b9',
     pid: 2,
     risk: 5,
-    lpSymbol: 'FSXU-BNB LP',
+    lpSymbol: 'Old FSXU-BNB LP',
     lpAddresses: {
       97: '',
       56: '0x4fe89aC612ee309FA9deC1f501495EEA44449924',
@@ -51,11 +59,14 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    farmCategory: FarmCategory.FSXU,
   },
   {
+    id: 3,
+    masterChef: '0x264dFD3874B8DF4947BEC00a8A5fcEbBE0D258b9',
     pid: 3,
     risk: 5,
-    lpSymbol: 'WHIRL-BNB LP',
+    lpSymbol: 'Old WHIRL-BNB LP',
     lpAddresses: {
       97: '',
       56: '0x3557af1C6B0b34767f5ad7fC2B16378F3a4f5dD5',
@@ -67,8 +78,11 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    farmCategory: FarmCategory.WHIRL,
   },
   {
+    id: 4,
+    masterChef: '0x264dFD3874B8DF4947BEC00a8A5fcEbBE0D258b9',
     pid: 4,
     risk: 3,
     lpSymbol: 'BNB-BUSD LP',
@@ -83,11 +97,14 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BUSD,
     quoteTokenAdresses: contracts.busd,
+    farmCategory: FarmCategory.WHIRL,
   },
   {
+    id: 5,
+    masterChef: '0x264dFD3874B8DF4947BEC00a8A5fcEbBE0D258b9',
     pid: 5,
     risk: 1,
-    lpSymbol: 'New FSXU-BNB LP',
+    lpSymbol: 'FSXU-BNB LP',
     lpAddresses: {
       97: '',
       56: '0x53aaabf8c94ff46a602663ccd9c4d3e14091330a',
@@ -99,11 +116,14 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    farmCategory: FarmCategory.FSXU,
   },
   {
+    id: 6,
+    masterChef: '0x264dFD3874B8DF4947BEC00a8A5fcEbBE0D258b9',
     pid: 6,
     risk: 2,
-    lpSymbol: 'New WHIRL-BNB LP',
+    lpSymbol: 'WHIRL-BNB LP',
     lpAddresses: {
       97: '',
       56: '0xe4d66bf8664ad87d1b1617d9e1cb1b981f238936',
@@ -115,7 +135,44 @@ const farms: FarmConfig[] = [
     },
     quoteTokenSymbol: QuoteToken.BNB,
     quoteTokenAdresses: contracts.wbnb,
+    farmCategory: FarmCategory.WHIRL,
   },
+  {
+    id: 7,
+    masterChef: '0x9c4de153073ef5c30D152b3c68fd3FC83D73c926',
+    pid: 1,
+    risk: 2,
+    lpSymbol: '101-BNB LP',
+    lpAddresses: {
+      97: '',
+      56: '0xcc2A47c3628110b6d33fE93F98f39D5ebB533a81',
+    },
+    tokenSymbol: '101',
+    tokenAddresses: {
+      97: '',
+      56: '0x169548d912ffda85a5e2ce58035b42c2270618d5',
+    },
+    quoteTokenSymbol: QuoteToken.BNB,
+    quoteTokenAdresses: contracts.wbnb,
+    farmCategory: FarmCategory.DALMATIAN,
+  },
+  // {
+  //   masterChef: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
+  //   pid: 251,
+  //   risk: 2,
+  //   lpSymbol: 'CAKE-BNB LP',
+  //   lpAddresses: {
+  //     97: '0x3ed8936cAFDF85cfDBa29Fbe5940A5b0524824F4',
+  //     56: '0x0eD7e52944161450477ee417DE9Cd3a859b14fD0',
+  //   },
+  //   tokenSymbol: 'CAKE',
+  //   tokenAddresses: {
+  //     97: '',
+  //     56: '0x7f479d78380ad00341fdd7322fe8aef766e29e5a',
+  //   },
+  //   quoteTokenSymbol: QuoteToken.BNB,
+  //   quoteTokenAdresses: contracts.wbnb,
+  // },
   // {
   //   pid: 5,
   //   risk: 2,

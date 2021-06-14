@@ -5,7 +5,7 @@ import { provider } from 'web3-core'
 import { getContract } from 'utils/erc20'
 import { Button, Flex, Text } from '@hawkofsky/whirlflashx-uikit'
 import { Farm } from 'state/types'
-import { useFarmFromPid, useFarmFromSymbol, useFarmUser } from 'state/hooks'
+import { useFarmFromId, useFarmFromSymbol, useFarmUser } from 'state/hooks'
 import useI18n from 'hooks/useI18n'
 import UnlockButton from 'components/UnlockButton'
 import { useApprove } from 'hooks/useApprove'
@@ -28,9 +28,8 @@ interface FarmCardActionsProps {
 const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }) => {
   const TranslateString = useI18n()
   const [requestedApproval, setRequestedApproval] = useState(false)
-  const { pid, lpAddresses, tokenAddresses, isTokenOnly, depositFeeBP } = useFarmFromPid(farm.pid)
-  const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
-  console.log(`${pid} earnings:`, earnings.toString())
+  const { id, masterChef, pid, lpAddresses, tokenAddresses, isTokenOnly, depositFeeBP } = useFarmFromId(farm.id)
+  const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(id)
   const lpAddress = lpAddresses[process.env.REACT_APP_CHAIN_ID]
   const tokenAddress = tokenAddresses[process.env.REACT_APP_CHAIN_ID]
   const lpName = farm.lpSymbol.toUpperCase()
@@ -43,7 +42,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
     return getContract(ethereum as provider, lpAddress)
   }, [ethereum, lpAddress, tokenAddress, isTokenOnly])
 
-  const { onApprove } = useApprove(lpContract)
+  const { onApprove } = useApprove(lpContract, masterChef)
 
   const handleApprove = useCallback(async () => {
     try {
@@ -62,6 +61,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
         tokenBalance={tokenBalance}
         tokenName={lpName}
         pid={pid}
+        masterchef={masterChef}
         depositFeeBP={depositFeeBP}
       />
     ) : (
@@ -82,7 +82,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
           {TranslateString(999, 'Earned')}
         </Text>
       </Flex>
-      <HarvestAction earnings={earnings} pid={pid} />
+      <HarvestAction earnings={earnings} pid={pid} masterchef={masterChef} />
       <Flex>
         <Text bold textTransform="uppercase" color="success" fontSize="12px" pr="3px">
           {lpName}

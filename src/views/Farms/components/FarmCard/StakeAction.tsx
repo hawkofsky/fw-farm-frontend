@@ -14,6 +14,7 @@ interface FarmCardActionsProps {
   tokenBalance?: BigNumber
   tokenName?: string
   pid?: number
+  masterchef?: string
   depositFeeBP?: number
 }
 
@@ -24,10 +25,10 @@ const IconButtonWrapper = styled.div`
   }
 `
 
-const StakeAction: React.FC<FarmCardActionsProps> = ({ stakedBalance, tokenBalance, tokenName, pid, depositFeeBP }) => {
+const StakeAction: React.FC<FarmCardActionsProps> = ({ stakedBalance, tokenBalance, tokenName, pid, masterchef, depositFeeBP }) => {
   const TranslateString = useI18n()
-  const { onStake } = useStake(pid)
-  const { onUnstake } = useUnstake(pid)
+  const { onStake } = useStake(pid, masterchef)
+  const { onUnstake } = useUnstake(pid, masterchef)
 
   let rawStakedBalance
   if ( pid === 0 ) {

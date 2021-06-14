@@ -3,12 +3,13 @@ import { useWallet } from 'use-wallet'
 import { useDispatch } from 'react-redux'
 import { fetchFarmUserDataAsync, updateUserBalance, updateUserPendingReward } from 'state/actions'
 import { soushHarvest, soushHarvestBnb, harvest } from 'utils/callHelpers'
+import { getMasterChefAddress } from 'utils/addressHelpers'
 import { useMasterchef, useSousChef } from './useContract'
 
-export const useHarvest = (farmPid: number) => {
+export const useHarvest = (farmPid: number, masterchef: string) => {
   const dispatch = useDispatch()
   const { account } = useWallet()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterchef(masterchef)
 
   const handleHarvest = useCallback(async () => {
     const txHash = await harvest(masterChefContract, farmPid, account)
@@ -21,7 +22,7 @@ export const useHarvest = (farmPid: number) => {
 
 export const useAllHarvest = (farmPids: number[]) => {
   const { account } = useWallet()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterchef(getMasterChefAddress())
 
   const handleHarvest = useCallback(async () => {
     const harvestPromises = farmPids.reduce((accum, pid) => {
@@ -38,7 +39,7 @@ export const useSousHarvest = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch()
   const { account } = useWallet()
   const sousChefContract = useSousChef(sousId)
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterchef(getMasterChefAddress())
 
   const handleHarvest = useCallback(async () => {
     if (sousId === 0) {
