@@ -29,6 +29,12 @@ export enum QuoteToken {
   'WHIRL' = 'WHIRL'
 }
 
+export enum FarmCategory {
+  'FSXU' = 'FSXU',
+  'WHIRL' = 'Whirl',
+  'DALMATIAN' = 'Dalmatian',
+}
+
 export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',
@@ -41,6 +47,8 @@ export interface Address {
 }
 
 export interface FarmConfig {
+  id: number
+  masterChef: string
   pid: number
   lpSymbol: string
   lpAddresses: Address
@@ -48,6 +56,7 @@ export interface FarmConfig {
   tokenAddresses: Address
   quoteTokenSymbol: QuoteToken
   quoteTokenAdresses: Address
+  farmCategory: FarmCategory
   multiplier?: string
   isTokenOnly?: boolean
   isCommunity?: boolean

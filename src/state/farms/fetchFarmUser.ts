@@ -8,11 +8,11 @@ import { getMasterChefAddress } from 'utils/addressHelpers'
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 
 export const fetchFarmUserAllowances = async (account: string) => {
-  const masterChefAdress = getMasterChefAddress()
+  // const masterChefAdress = getMasterChefAddress()
 
   const calls = farmsConfig.map((farm) => {
     const lpContractAddress = farm.isTokenOnly ? farm.tokenAddresses[CHAIN_ID] : farm.lpAddresses[CHAIN_ID]
-    return { address: lpContractAddress, name: 'allowance', params: [account, masterChefAdress] }
+    return { address: lpContractAddress, name: 'allowance', params: [account, farm.masterChef] }
   })
 
   const rawLpAllowances = await multicall(erc20ABI, calls)
@@ -40,11 +40,11 @@ export const fetchFarmUserTokenBalances = async (account: string) => {
 }
 
 export const fetchFarmUserStakedBalances = async (account: string) => {
-  const masterChefAdress = getMasterChefAddress()
+  // const masterChefAdress = getMasterChefAddress()
 
   const calls = farmsConfig.map((farm) => {
     return {
-      address: masterChefAdress,
+      address: farm.masterChef,
       name: 'userInfo',
       params: [farm.pid, account],
     }
@@ -58,11 +58,11 @@ export const fetchFarmUserStakedBalances = async (account: string) => {
 }
 
 export const fetchFarmUserEarnings = async (account: string) => {
-  const masterChefAdress = getMasterChefAddress()
+  // const masterChefAdress = getMasterChefAddress()
 
   const calls = farmsConfig.map((farm) => {
     return {
-      address: masterChefAdress,
+      address: farm.masterChef,
       name: 'pendingReward',
       params: [farm.pid, account],
     }

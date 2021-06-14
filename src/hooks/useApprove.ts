@@ -8,10 +8,10 @@ import { approve } from 'utils/callHelpers'
 import { useMasterchef, useCake, useSousChef, useLottery } from './useContract'
 
 // Approve a Farm
-export const useApprove = (lpContract: Contract) => {
+export const useApprove = (lpContract: Contract, masterChef: string) => {
   const dispatch = useDispatch()
   const { account }: { account: string } = useWallet()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterchef(masterChef)
 
   const handleApprove = useCallback(async () => {
     try {
@@ -19,7 +19,7 @@ export const useApprove = (lpContract: Contract) => {
       dispatch(fetchFarmUserDataAsync(account))
       return tx
     } catch (e) {
-      alert(e)
+      console.log(e)
       return false
     }
   }, [account, dispatch, lpContract, masterChefContract])

@@ -435,19 +435,19 @@
     {
       "data": {
         "stringId": 454,
-        "text": "%num% EGG Available"
+        "text": "%num% WHIRL Available"
       }
     },
     {
       "data": {
         "stringId": 456,
-        "text": "Your amount must be a multiple of 10 EGG"
+        "text": "Your amount must be a multiple of 10 WHIRL"
       }
     },
     {
       "data": {
         "stringId": 458,
-        "text": "1 Ticket = 10 EGG"
+        "text": "1 Ticket = 1000 WHIRL"
       }
     },
     {
@@ -495,7 +495,7 @@
     {
       "data": {
         "stringId": 478,
-        "text": "Ticket purchases are final. Your EGG cannot be returned to you after buying tickets."
+        "text": "Ticket purchases are final. Your WHIRL cannot be returned to you after buying tickets."
       }
     },
     {
