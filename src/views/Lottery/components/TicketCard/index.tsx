@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card, CardBody, TicketRound, Text, Heading } from '@hawkofsky/whirlflashx-uikit'
+import { Card, CardBody, TicketRound, Image, Text, Heading } from '@hawkofsky/whirlflashx-uikit'
 import useI18n from 'hooks/useI18n'
 import useGetLotteryHasDrawn from 'hooks/useGetLotteryHasDrawn'
 import useTickets from 'hooks/useTickets'
@@ -43,6 +43,7 @@ const IconWrapper = styled.div`
 `
 
 const TicketCountWrapper = styled.div`
+  margin-left: 16px;
   display: flex;
   flex-direction: column;
 `
@@ -61,9 +62,7 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
     <StyledCard isSecondCard={isSecondCard}>
       <CardBody>
         <CardHeader>
-          <IconWrapper>
-            <TicketRound />
-          </IconWrapper>
+          <Image src="/images/lottery-icon.png" alt="Number 1" width={48} height={48} />
           {lotteryHasDrawn ? (
             <TicketCountWrapper>
               <Text fontSize="14px" color="textSubtle">

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Ticket } from '@hawkofsky/whirlflashx-uikit'
+import { Heading, Card, CardBody, Image } from '@hawkofsky/whirlflashx-uikit'
 import useI18n from 'hooks/useI18n'
 import UnlockButton from 'components/UnlockButton'
 
@@ -28,9 +28,7 @@ const UnlockWalletCard = () => {
   return (
     <Card isActive>
       <StyledCardBody>
-        <IconWrapper>
-          <Ticket />
-        </IconWrapper>
+        <Image src="/images/lottery-icon.png" alt="Number 1" width={80} height={80} />
         <StyledHeading size="md">{TranslateString(999, 'Unlock wallet to access lottery')}</StyledHeading>
         <UnlockButton />
       </StyledCardBody>
