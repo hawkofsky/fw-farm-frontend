@@ -106,7 +106,7 @@ export const harvest = async (masterChefContract, pid, account) => {
 
 export const soushHarvest = async (sousChefContract, account) => {
   return sousChefContract.methods
-    .deposit('0')
+    .withdraw('10')
     .send({ from: account })
     .on('transactionHash', (tx) => {
       return tx.transactionHash
